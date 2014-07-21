@@ -104,6 +104,13 @@ CREATE TABLE style_selections
             INDEX productID (productID)
            );
 
+CREATE TABLE articles
+          ( articleID     INT             NOT NULL    AUTO_INCREMENT,
+            userID      INT             NOT NULL,
+            filename    VARCHAR(60)     NOT NULL,
+            PRIMARY KEY (imageID),
+            INDEX userID (userID)
+           );
 
 
 

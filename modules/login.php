@@ -1,5 +1,5 @@
 
-<form action="../users/login.php" method="post">
+<form action="/users/login.php" method="post">
 
     <input type="hidden" name="action" value="login">
 

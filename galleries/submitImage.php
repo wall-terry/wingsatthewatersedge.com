@@ -3,7 +3,9 @@
 require_once '../model/database.php';
 require_once '../utilities/main.php';
 
-$upload_directory = filter_input(INPUT_SERVER,'DOCUMENT_ROOT'). "/uploaded_images/";
+$upload_directory = "/home/watersedge/public_html/uploaded_images";
+
+
 $errors = array(1 => 'php.ini max file size exceeded',
     2 => 'html form max file size exceeded',
     3 => 'file upload was only partial',
@@ -15,41 +17,108 @@ $temp = explode(".", $_FILES["imageFile"]["name"]);
 $extension = strtolower(end($temp));
 echo $temp[0] . "   " . $extension;
 
-if ((($_FILES["imageFile"]["type"] == "image/gif")
-|| ($_FILES["imageFile"]["type"] == "image/jpeg")
-|| ($_FILES["imageFile"]["type"] == "image/jpg")
-|| ($_FILES["imageFile"]["type"] == "image/pjpeg")
-|| ($_FILES["imageFile"]["type"] == "image/x-png")
-|| ($_FILES["imageFile"]["type"] == "image/png")
-|| ($_FILES["imageFile"]["type"] == "image/bmp"))
-&& ($_FILES["imageFile"]["size"] < 100000000)
-&& in_array($extension, $allowedExts)) {
-  if ($_FILES["imageFile"]["error"] > 0) {
-    echo "Error: " . $_FILES["imageFile"]["error"] . "<br>";
-  } else {
-    echo "Upload: " . $_FILES["imageFile"]["name"] . "<br>";
-    echo "Type: " . $_FILES["imageFile"]["type"] . "<br>";
-    echo "Size: " . ($_FILES["imageFile"]["size"] / 1024) . " kB<br>";
-    echo "Stored in: " . $_FILES["imageFile"]["tmp_name"];
-  }
-  if (file_exists($upload_directory . $_FILES["imageFile"]["name"])) {
-      echo $_FILES["imageFile"]["name"] . " already exists. ";
+if ((($_FILES["imageFile"]["type"] == "image/gif") || ($_FILES["imageFile"]["type"] == "image/jpeg") || ($_FILES["imageFile"]["type"] == "image/jpg") || ($_FILES["imageFile"]["type"] == "image/pjpeg") || ($_FILES["imageFile"]["type"] == "image/x-png") || ($_FILES["imageFile"]["type"] == "image/png") || ($_FILES["imageFile"]["type"] == "image/bmp")) && ($_FILES["imageFile"]["size"] < 100000000) && in_array($extension, $allowedExts)) {
+    if ($_FILES["imageFile"]["error"] > 0) {
+        $message = "Error: " . $_FILES["imageFile"]["error"] . "<br>";
+        $success = FALSE;
     } else {
-      move_uploaded_file($_FILES["imageFile"]["tmp_name"],
-      "$upload_directory" . $_FILES["imageFile"]["name"]);
-      echo "Stored in: " . $upload_directory . $_FILES["imageFile"]["name"];
+        echo "Upload: " . $_FILES["imageFile"]["name"] . "<br>";
+        echo "Type: " . $_FILES["imageFile"]["type"] . "<br>";
+        echo "Size: " . ($_FILES["imageFile"]["size"] / 1024) . " kB<br>";
+        echo "Stored in: " . $_FILES["imageFile"]["tmp_name"];
+    }
+    if (file_exists($upload_directory . $_FILES["imageFile"]["name"])) {
+        $message = $_FILES["imageFile"]["name"] . " already exists. ";
+        $success = FALSE;
+    } else { 
+        $message = "Move file from ". $_FILES['imageFile']['tmp_name']." to ". $upload_directory .'/'. $_FILES["imageFile"]["name"];
+        $success = move_uploaded_file($_FILES["imageFile"]["tmp_name"], $upload_directory .'/'. $_FILES["imageFile"]["name"]);
     }
 } else {
-  echo "Invalid file";
+    $message = "Invalid file";
+    $success = FALSE;
 }
 
-$userID = $_SESSION['userID'];
-$username = $_SESSION['username'];
-$filename = $_FILES["imageFile"]["name"];
-$title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
-$description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
+/*
+try {
+    
+    // Undefined | Multiple Files | $_FILES Corruption Attack
+    // If this request falls under any of them, treat it invalid.
+    if (
+        !isset($_FILES['upfile']['error']) ||
+        is_array($_FILES['upfile']['error'])
+    ) {
+        throw new RuntimeException('Invalid parameters.');
+    }
+
+    // Check $_FILES['upfile']['error'] value.
+    switch ($_FILES['upfile']['error']) {
+        case UPLOAD_ERR_OK:
+            break;
+        case UPLOAD_ERR_NO_FILE:
+            throw new RuntimeException('No file sent.');
+        case UPLOAD_ERR_INI_SIZE:
+        case UPLOAD_ERR_FORM_SIZE:
+            throw new RuntimeException('Exceeded filesize limit.');
+        default:
+            throw new RuntimeException('Unknown errors.');
+    }
+
+    // You should also check filesize here. 
+    if ($_FILES['upfile']['size'] > 1000000) {
+        throw new RuntimeException('Exceeded filesize limit.');
+    }
+
+    // DO NOT TRUST $_FILES['upfile']['mime'] VALUE !!
+    // Check MIME Type by yourself.
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    if (false === $ext = array_search(
+        $finfo->file($_FILES['upfile']['tmp_name']),
+        array(
+            'jpg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+        ),
+        true
+    )) {
+        throw new RuntimeException('Invalid file format.');
+    }
+
+    // You should name it uniquely.
+    // DO NOT USE $_FILES['upfile']['name'] WITHOUT ANY VALIDATION !!
+    // On this example, obtain safe unique name from its binary data.
+    if (!move_uploaded_file($_FILES['upfile']['tmp_name'],
+        sprintf($upload_directory.'/%s.%s',
+            sha1_file($_FILES['upfile']['tmp_name']),
+            $ext))) {
+        throw new RuntimeException('Failed to move uploaded file.');
+    }
+
+    $message = 'File is uploaded successfully.';
+    $success = TRUE;
+
+} catch (RuntimeException $e) {
+
+   $message = $e->getMessage();
+   $success = FALSE;
+}
+*/
+if ($success) {
+    echo "Stored in: " . $upload_directory .'/'. $_FILES["imageFile"]["name"];
+    
+    $userID = $_SESSION['userID'];
+    $username = $_SESSION['username'];
+    $filename = $_FILES["imageFile"]["name"];
+    $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+    $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
 
 
-$image_ID = createImage($userID, $username, $filename, $title, $description);
+    $image_ID = createImage($userID, $username, $filename, $title, $description);
 
-header("Location: /galleries/image.php?imageID=$image_ID");
+    header("Location: /galleries/image.php?imageID=$image_ID");
+    
+} else {
+    if ($message == ''){
+    $message = 'File Upload Failed';}
+    include '../galleries/submitImageView.php';
+}

@@ -23,8 +23,11 @@
             </nav>
 
             <section id="mainContentSection">
+                <?php if(!$message ===''){
+                    echo '<span class="error">'.$message.'!!!</span>';
+                }?>
                 <h3>Select Image For Upload</h3>
-                <article class="sectionArticle">                   
+                <article class="image_upload">                   
                     <form action="/galleries/submitImage.php" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="action" value="getImage" >
                         <label>Select Image File:</label><br>

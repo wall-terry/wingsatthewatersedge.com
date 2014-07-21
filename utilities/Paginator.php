@@ -1,5 +1,5 @@
 <?php
- 
+
 class Paginator{
     var $items_per_page;
     var $items_total;
@@ -104,4 +104,4 @@ class Paginator{
         return $this->return;
     }
 }
-?>
+

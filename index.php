@@ -19,9 +19,14 @@ switch ($action) {
     case 'login':
         include ('loginView.php');
         break;
+    
+    case 'login_failed':
+        $error_message = 'Unknown Username or Passsword';
+        include ('loginView.php');
+        break;
 
     case 'new_account':
-        include ('users/createAccountView.php');
+        include 'users/createAccountView.php';
         break;
 
     default:

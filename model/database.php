@@ -5,7 +5,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 $dsn = 'mysql:host=localhost;dbname=watersedge';
 $username = 'watersedge';
 $password = 'CDLn2256267';
@@ -16,6 +15,10 @@ try {
     $message = $ex->getMessage();
     display_db_error($message);
     exit;
+}
+
+function getArticleByID($articleID){
+    
 }
 
 
@@ -79,11 +82,12 @@ function getImageData($imageID) {
     }
 }
 
-function getAllImages() {
+function getAllImages($limit) {
     global $db;
     
-    $query = 'SELECT  * FROM images
-            WHERE imageID > 0';
+    $query = "SELECT  * FROM images
+              WHERE imageID > 0
+              ORDER BY imageID ASC $limit";
     try {
         $statement = $db->prepare($query);
         $statement->execute();

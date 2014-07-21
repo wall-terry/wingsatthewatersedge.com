@@ -25,7 +25,12 @@
 
 			
 			<section id="mainContentSection">
+                               
 				<header class="sectionHeader"><h3>Enter Username and Password</h3></header>
+                                 <?php if (isset($error_message)){ 
+                                    echo '<span class="error">'.$error_message.'</span>';
+                                    
+                                } ?>
 				<article class="sectionArticle"><h3><?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/login.php'); ?></h3></article>
 				<footer class="sectionFooter"><h3>Thank you for stopping by.</h3></footer>
 			</section>

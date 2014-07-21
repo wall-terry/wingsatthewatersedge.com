@@ -2,7 +2,7 @@
 
 <head>
 
-    <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/head.php'); ?>
+    <?php include 'modules/head.php'; ?>
 
 </head>
 
@@ -11,16 +11,17 @@
 
 
 
+
     <div id="pageWrapper">
 
         <header id="pageHeader">
-            <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/header.php'); ?>
+            <?php include ('modules/header.php'); ?>
         </header>
 
 
         <div id="contentWrapper" class="clearfix">
             <nav id="pageNav">
-                <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/navigation.php'); ?>
+                <?php include  'modules/navigation.php'; ?>
             </nav>
 
 
@@ -53,7 +54,7 @@
             </aside>
         </div>
         <footer id="pageFooter">
-            <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/footer.php'); ?>
+            <?php include 'modules/footer.php'; ?>
         </footer>
     </div>
 </body>

@@ -1,7 +1,7 @@
 <?php
 
-require_once '../model/database.php';
-require_once '../utilities/main.php';
+require_once '/model/database.php';
+require_once '/utilities/main.php';
 
 $user_name = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 $user_email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
@@ -15,11 +15,11 @@ if ($user_password == $verify_password) {
     $_SESSION['username'] = $user_name;
    
 
-    include '/homeview.php';
+    header('Location:/index.php?action=home' );
     
 
             
 } else {
-    include '/views/createAccountView.php';
+    include '../views/createAccountView.php';
     echo 'Passwords do not match.';
 }

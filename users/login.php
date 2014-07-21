@@ -12,15 +12,16 @@ $user_name = filter_input(INPUT_POST,'username',FILTER_SANITIZE_STRING);
 $user_password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 $user_data = check_user_login($user_name, $user_password); 
 
-if (isset($user_data)){
+if (isset($user_data['userID'])){
     $_SESSION['userID'] = $user_data['userID'];
     $_SESSION['username'] = $user_data['username'];
     
 
-    include (filter_input(INPUT_SERVER,'DOCUMENT_ROOT').'/homeview.php');
+    header('Location:/index.php?action=home' );
 
 } else {
-    include (filter_input(INPUT_SERVER,'DOCUMENT_ROOT').'/loginview.php');
+    
+    header('Location:/index.php?action=login_failed' );
 
 }
 

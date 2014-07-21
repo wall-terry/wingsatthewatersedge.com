@@ -109,7 +109,7 @@ img { border: 0px;}
 #pageNav li a {
     color: white;
     text-decoration: none;
-    
+
 }
 .featuredSection {
 
@@ -181,41 +181,47 @@ img { border: 0px;}
 .gallery_image{
     width: 100%;
 }
+
 div.pagination {
-	padding: 3px;
-	margin: 3px;
+    padding: 3px;
+    margin: 3px;
 }
 
 div.pagination a {
-	padding: 2px 5px 2px 5px;
-	margin: 2px;
-	border: 1px solid #AAAADD;
-	
-	text-decoration: none; /* no underline */
-	color: #000099;
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    border: 1px solid #AAAADD;
+
+    text-decoration: none; /* no underline */
+    color: #000099;
 }
 div.pagination a:hover, div.pagination a:active {
-	border: 1px solid #000099;
+    border: 1px solid #000099;
 
-	color: #000;
+    color: #000;
 }
 div.pagination span.current {
-	padding: 2px 5px 2px 5px;
-	margin: 2px;
-		border: 1px solid #000099;
-		
-		font-weight: bold;
-		background-color: #000099;
-		color: #FFF;
-	}
-	div.pagination span.disabled {
-		padding: 2px 5px 2px 5px;
-		margin: 2px;
-		border: 1px solid #EEE;
-	
-		color: #DDD;
-	}
-	
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    border: 1px solid #000099;
+
+    font-weight: bold;
+    background-color: #000099;
+    color: #FFF;
+}
+div.pagination span.disabled {
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    border: 1px solid #EEE;
+
+    color: #DDD;
+}
+
+.thumbnail{
+    margin-left: 15px;
+    width: 30%;
+
+}
 /* Clear Floated Elements */
 .clearfix:before, .clearfix:after {content: "\0020"; 
                                    display: block; height: 0; visibility: hidden;}
