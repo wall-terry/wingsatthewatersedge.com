@@ -12,6 +12,6 @@ $doc_root = filter_input(INPUT_SERVER, 'DOCUMENT_ROOT');
 define('BASE_URL', 'http://wingsatthewatersedge.com');
 $base_url = filter_input(INPUT_SERVER, 'HTTP_HOST');
 
-$lifetime = 60 * 60 * 24 * 14;
+$lifetime = 0;
 session_set_cookie_params($lifetime, '/');
 session_start();

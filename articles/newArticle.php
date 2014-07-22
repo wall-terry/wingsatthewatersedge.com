@@ -11,6 +11,7 @@
 require_once '../model/database.php';
 require_once '../utilities/main.php';
 
-
+If(isset($_SESSION['userID'])){
 include ('../articles/newArticleView.php');
-
+} else { header("Location: ../index.php");
+}

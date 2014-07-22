@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-
+    <title>This is the home page</title>
     <?php include ( 'modules/head.php'); ?>
 
 </head>
@@ -33,9 +33,13 @@
                 <img src="/images/Black%20Necked%20Stilt.JPG" alt="Black Necked Stilt Wadingin the Shallows.">
             </section>
             <section id="mainContentSection">
-                <header class="sectionHeader"><h3>Header To the Main Content Area</h3></header>
-                <article class="sectionArticle"><h3>The Main Content Area</h3></article>
-                <footer class="sectionFooter"><h3>Footer to the Main Content Area</h3></footer>
+
+                <?php $articles = getAllArticles('LIMIT 0,1'); ?>
+                <h3><?php echo $articles[0]['title']; ?></h3><br>
+
+                <article>
+                    <?php echo $articles[0]['content']; ?>
+                </article>
             </section>
 
             <aside id="pageAside">
@@ -43,6 +47,15 @@
                     <?php include ('modules/login.php'); ?>
                 <?php endif; ?>
                 <h2>Whats New?</h2>
+                <?php $articles = getAllArticles('LIMIT 0,3'); ?>
+                <?php foreach ($articles as $article) : ?>
+                    <a href="/articles/article.php?articleID=<?php echo $article['articleID']; ?>"> 
+                        <h3><?php echo $article['title']; ?></h3>
+                    </a>
+                    <article><?php echo $article['description']; ?></article><br>
+                    <a href="/articles/article.php?articleID=<?php echo $article['articleID']; ?>">Read More</a>
+
+                <?php endforeach; ?>             
             </aside>
         </div>
         <footer id="pageFooter">

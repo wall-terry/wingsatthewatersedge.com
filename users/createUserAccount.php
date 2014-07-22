@@ -1,7 +1,8 @@
 <?php
 
-require_once '/model/database.php';
-require_once '/utilities/main.php';
+require_once '../model/database.php';
+require_once '../utilities/main.php';
+echo 'about here';
 
 $user_name = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 $user_email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);

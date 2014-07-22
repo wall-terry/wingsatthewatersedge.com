@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <head>
-
+    <title>This View Shows Paged Thumbnails of All the Gallery Images</title>
     <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/head.php'); ?>
 
 </head>
@@ -25,7 +25,7 @@
             </nav>
 
             <section id="mainContentSection">
-                <header class="sectionHeader"><h3>Image Gallery<?php echo $imageID; ?></h3></header>
+                <h3>Image Gallery<?php echo $imageID; ?></h3>
                 <div class="pagination">
 
                     <?php
@@ -42,13 +42,25 @@
                         </a>
                     <?php endforeach; ?>
                 </div>
+                
+                <div class="pagination"><?php echo $pages->display_pages();?></div>
+                    
             </section>
 
             <aside id="pageAside">
                 <?php if (!isset($_SESSION['username'])) : ?>
-                    <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/login.php'); ?>
+                    <?php include ('../modules/login.php'); ?>
                 <?php endif; ?>
                 <h2>Whats New?</h2>
+                <?php $articles = getAllArticles('LIMIT 0,3'); ?>
+                <?php foreach ($articles as $article) : ?>
+                    <a href="/articles/article.php?articleID=<?php echo $article['articleID']; ?>"> 
+                        <h3><?php echo $article['title']; ?></h3>
+                    </a>
+                    <article><?php echo $article['description']; ?></article><br>
+                    <a href="/articles/article.php?articleID=<?php echo $article['articleID']; ?>">Read More</a>
+
+                <?php endforeach; ?>  
             </aside>
         </div>
         <footer id="pageFooter">

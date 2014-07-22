@@ -15,7 +15,7 @@ require_once '../utilities/main.php';
 $articleID = filter_input(INPUT_GET, "articleID");
 
 
-$article = getArticleByID($articleID);
+$article = getArticleData($articleID);
 
 
-include '../articles/articlesView.php';
+include '../articles/articleView.php';

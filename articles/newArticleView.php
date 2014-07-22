@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Create A New Bolog Entry</title>
+    <title>Create A New Blog Entry</title>
     <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/head.php'); ?>
 
 </head>
@@ -25,12 +25,12 @@
             </nav>
 
             <section id="mainContentSection">
-                <header class="sectionHeader"><h3>Create a New Blog Entry</h3></header>
-                <form class="blog_entry" action="/article/postArticle.php" onsubmit="TRUE">
+                <form class="smart-form" action="/articles/postArticle.php" method="post" >
+                    <h1>Create a New Blog Entry</h1>
                     <label>Title:</label>
-                    <input type="text" name="title" value="Enter the Title Here"><br>
-                    <textarea id="article_body" name="text" rows="40" cols="50" >
-                        Create Your Article Text Here
+                    <input type="text" name="title" placeholder="Enter the Title Here"><br>
+                    <textarea id="article_body" name="text" rows="40" cols="50" placeholder="Created Your Article Here" >
+                       
                     </textarea>
                     <script type="text/javascript">
                         CKEDITOR.replace('article_body');
@@ -41,9 +41,18 @@
 
             <aside id="pageAside">
                 <?php if (!isset($_SESSION['username'])) : ?>
-                    <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/login.php'); ?>
+                    <?php include ('../modules/login.php'); ?>
                 <?php endif; ?>
                 <h2>Whats New?</h2>
+                <?php $articles = getAllArticles('LIMIT 0,3'); ?>
+                <?php foreach ($articles as $article) : ?>
+                    <a href="/articles/article.php?articleID=<?php echo $article['articleID']; ?>"> 
+                        <h3><?php echo $article['title']; ?></h3>
+                    </a>
+                    <article><?php echo $article['description']; ?></article><br>
+                    <a href="/articles/article.php?articleID=<?php echo $article['articleID']; ?>">Read More</a>
+
+                <?php endforeach; ?>  
             </aside>
         </div>
         <footer id="pageFooter">

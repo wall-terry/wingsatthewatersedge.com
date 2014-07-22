@@ -16,8 +16,8 @@ require_once '../utilities/Paginator.php';
 
 
 
-$images = getAllArticles('');
-$num_rows = count($images);
+$articles = getAllArticles('');
+$num_rows = count($articles);
 
 
 $pages = new Paginator;
@@ -25,7 +25,7 @@ $pages->items_total = $num_rows;
 $pages->mid_range = 9;
 $pages->paginate();
 
-$articles = getAllImages($pages->limit);
+$articles = getAllArticles($pages->limit);
 /*echo $pages->display_pages();*/
 
 include '../articles/articlesView.php';

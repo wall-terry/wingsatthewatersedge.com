@@ -9,6 +9,6 @@
 
 <?php endif; ?>
 
-<img class="header_image" src=" /images/Snowy_Egret.JPG" alt="Snowy Egret wading in a deep blue pond">
+<img class="headerimage" src=" /images/Snowy_Egret.JPG" alt="Snowy Egret wading in a deep blue pond">
 
-<h1 class="header_title">Wings at the Waters Edge</h1>
+<h1 class="headertitle">Wings at the Waters Edge</h1>

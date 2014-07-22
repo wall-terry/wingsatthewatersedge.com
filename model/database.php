@@ -17,9 +17,7 @@ try {
     exit;
 }
 
-function getArticleByID($articleID){
-    
-}
+
 
 
 function get_user_from_userID($userID) {
@@ -64,6 +62,30 @@ function createImage($userID, $username, $filename, $title, $description) {
     }
 }
 
+function createArticle($userID, $username, $title, $text, $description) {
+    global $db;
+
+    $query = 'INSERT INTO articles
+               (userID, username, title, content, description) 
+              VALUES
+                (:userID, :username, :title, :content, :description)';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':userID', $userID);
+        $statement->bindValue(':username', $username);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':content', $text);
+        $statement->bindValue(':description', $description);
+        $statement->execute();
+        $statement->closeCursor();
+        $articleID = $db->lastInsertId();
+        return $articleID;
+    } catch (PDOException $ex) {
+        $message = $ex->getMessage();
+        display_db_error($message);
+    }
+}
+
 function getImageData($imageID) {
     global $db;
     
@@ -82,12 +104,49 @@ function getImageData($imageID) {
     }
 }
 
+function getArticleData($articleID) {
+    global $db;
+    
+    $query = 'SELECT  * FROM articles
+            WHERE articleID = :articleID';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':articleID', $articleID);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+        return $result;
+    } catch (Exception $ex) {
+        $message = 'Failed to Get article data from userID';
+        display_db_error($message);
+    }
+}
+
+
 function getAllImages($limit) {
     global $db;
     
     $query = "SELECT  * FROM images
               WHERE imageID > 0
               ORDER BY imageID ASC $limit";
+    try {
+        $statement = $db->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $statement->closeCursor();
+        return $result;
+    } catch (Exception $ex) {
+        $message = 'Failed to Get image data from userID';
+        display_db_error($message);
+    }
+}
+
+function getAllArticles($limit) {
+    global $db;
+    
+    $query = "SELECT  * FROM articles
+              WHERE articleID > 0
+              ORDER BY date DESC $limit";
     try {
         $statement = $db->prepare($query);
         $statement->execute();

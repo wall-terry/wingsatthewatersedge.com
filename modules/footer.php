@@ -1,1 +1,1 @@
-<a href="presentation.php">MyISAM vs. INNODB</a>
+<a href="/presentation.php">MyISAM vs. INNODB</a>

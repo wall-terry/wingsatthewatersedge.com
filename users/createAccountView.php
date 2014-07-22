@@ -50,7 +50,19 @@
             </section>
 
             <aside id="pageAside">
+                <?php if (!isset($_SESSION['username'])) : ?>
+                    <?php include ('/modules/login.php'); ?>
+                <?php endif; ?>
                 <h2>Whats New?</h2>
+                <?php $articles = getAllArticles('LIMIT 0,3'); ?>
+                <?php foreach ($articles as $article) : ?>
+                    <a href="/articles/article.php?articleID=<?php echo $article['articleID']; ?>"> 
+                        <h3><?php echo $article['title']; ?></h3>
+                    </a>
+                    <article><?php echo $article['description']; ?></article><br>
+                    <a href="/articles/article.php?articleID=<?php echo $article['articleID']; ?>">Read More</a>
+
+                <?php endforeach; ?>  
             </aside>
         </div>
         <footer id="pageFooter">
