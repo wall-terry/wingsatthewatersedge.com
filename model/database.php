@@ -17,12 +17,8 @@ try {
     exit;
 }
 
-
-
-
 function get_user_from_userID($userID) {
     global $db;
-    
     $query = 'SELECT  * FROM users
             WHERE userID = :userID';
     try {
@@ -86,102 +82,177 @@ function createArticle($userID, $username, $title, $text, $description) {
     }
 }
 
-function getImageData($imageID) {
+function alterArticle($articleID, $title, $text, $description) {
     global $db;
-    
-    $query = 'SELECT  * FROM images
-            WHERE imageID = :imageID';
-    try {
-        $statement = $db->prepare($query);
-        $statement->bindValue(':imageID', $imageID);
-        $statement->execute();
-        $result = $statement->fetch();
-        $statement->closeCursor();
-        return $result;
-    } catch (Exception $ex) {
-        $message = 'Failed to Get image data from userID';
-        display_db_error($message);
-    }
-}
 
-function getArticleData($articleID) {
-    global $db;
-    
-    $query = 'SELECT  * FROM articles
-            WHERE articleID = :articleID';
+    $query = 'UPDATE articles
+              SET   title = :title,
+                    content = :content,
+                    description = :description
+              WHERE articleID = :articleID';
+
     try {
         $statement = $db->prepare($query);
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':content', $text);
+        $statement->bindValue(':description', $description);
         $statement->bindValue(':articleID', $articleID);
-        $statement->execute();
-        $result = $statement->fetch();
+        $rowCount = $statement->execute();
         $statement->closeCursor();
-        return $result;
-    } catch (Exception $ex) {
-        $message = 'Failed to Get article data from userID';
-        display_db_error($message);
-    }
-}
-
-
-function getAllImages($limit) {
-    global $db;
-    
-    $query = "SELECT  * FROM images
-              WHERE imageID > 0
-              ORDER BY imageID ASC $limit";
-    try {
-        $statement = $db->prepare($query);
-        $statement->execute();
-        $result = $statement->fetchAll();
-        $statement->closeCursor();
-        return $result;
-    } catch (Exception $ex) {
-        $message = 'Failed to Get image data from userID';
-        display_db_error($message);
-    }
-}
-
-function getAllArticles($limit) {
-    global $db;
-    
-    $query = "SELECT  * FROM articles
-              WHERE articleID > 0
-              ORDER BY date DESC $limit";
-    try {
-        $statement = $db->prepare($query);
-        $statement->execute();
-        $result = $statement->fetchAll();
-        $statement->closeCursor();
-        return $result;
-    } catch (Exception $ex) {
-        $message = 'Failed to Get image data from userID';
-        display_db_error($message);
-    }
-}
-
-function create_user_account($username, $email, $password) {
-    global $db;
-
-    $query = 'INSERT INTO users
-               (username, email, password) 
-              VALUES
-                (:username, :email, :password)';
-    try {
-        $statement = $db->prepare($query);
-        $statement->bindValue(':username', $username);
-        $statement->bindValue(':email', $email);
-        $statement->bindValue(':password', $password);
-        $statement->execute();
-        $statement->closeCursor();
-        $user_ID = $db->lastInsertId();
-        return $user_ID;
+        return $rowCount;
     } catch (PDOException $ex) {
         $message = $ex->getMessage();
         display_db_error($message);
     }
 }
 
-function check_user_login($userName, $passWord) {
+function deleteArticle($articleID) {
+    global $db;
+    $query = 'DELETE FROM articles Where articleID = :articleID';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':articleID', $articleID);
+        $rowCount = $statement->execute();
+        return $rowCount;
+    } catch (PDOException $ex) {
+        $message = $ex->getMessage();
+        display_db_error($message);
+    }
+}
+    function getImageData($imageID) {
+        global $db;
+
+        $query = 'SELECT  * FROM images
+            WHERE imageID = :imageID';
+        try {
+            $statement = $db->prepare($query);
+            $statement->bindValue(':imageID', $imageID);
+            $statement->execute();
+            $result = $statement->fetch();
+            $statement->closeCursor();
+            return $result;
+        } catch (Exception $ex) {
+            $message = 'Failed to Get image data from userID';
+            display_db_error($message);
+        }
+    }
+
+    function getArticleData($articleID) {
+        global $db;
+
+        $query = 'SELECT  * FROM articles
+            WHERE articleID = :articleID';
+        try {
+            $statement = $db->prepare($query);
+            $statement->bindValue(':articleID', $articleID);
+            $statement->execute();
+            $result = $statement->fetch();
+            $statement->closeCursor();
+            return $result;
+        } catch (Exception $ex) {
+            $message = 'Failed to Get article data from userID';
+            display_db_error($message);
+        }
+    }
+
+    function getAllImages($limit) {
+        global $db;
+
+        $query = "SELECT  * FROM images
+              WHERE imageID > 0
+              ORDER BY imageID ASC $limit";
+        try {
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $result = $statement->fetchAll();
+            $statement->closeCursor();
+            return $result;
+        } catch (Exception $ex) {
+            $message = 'Failed to Get image data from userID';
+            display_db_error($message);
+        }
+    }
+
+    function getAllArticles($limit) {
+        global $db;
+
+        $query = "SELECT  * FROM articles
+              WHERE articleID > 0
+              ORDER BY date DESC $limit";
+        try {
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $result = $statement->fetchAll();
+            $statement->closeCursor();
+            return $result;
+        } catch (Exception $ex) {
+            $message = 'Failed to Get image data from userID';
+            display_db_error($message);
+        }
+    }
+    
+        function create_user_account($username, $email, $password) {
+        global $db;
+
+        $query = 'INSERT INTO users
+               (username, email, password) 
+              VALUES
+                (:username, :email, :password)';
+        try {
+            $statement = $db->prepare($query);
+            $statement->bindValue(':username', $username);
+            $statement->bindValue(':email', $email);
+            $statement->bindValue(':password', $password);
+            $statement->execute();
+            $statement->closeCursor();
+            $user_ID = $db->lastInsertId();
+            return $user_ID;
+        } catch (PDOException $ex) {
+            $message = $ex->getMessage();
+            display_db_error($message);
+        }
+    }
+    
+    function alterUserAccount($user_name, $user_email, $new_password, $userID) {
+        global $db;
+        
+        $query = 'UPDATE users
+                 SET username = :username,
+                     password = :password,
+                     email = :email             
+            WHERE userID = :userID';
+
+        try {
+            $statement = $db->prepare($query);
+            $statement->bindValue(':username', $user_name);
+            $statement->bindValue(':email', $user_email);
+            $statement->bindValue(':password', $new_password);
+            $statement->bindValue(':userID', $userID);
+            $rowCount =$statement->execute();
+            $statement->closeCursor();
+
+            return $rowCount;
+        } catch (PDOException $ex) {
+            $message = $ex->getMessage();
+            display_db_error($message);
+        }
+    }
+    
+function deleteUser($userID) {
+    global $db;
+    $query = 'DELETE FROM users Where userID = :userID';
+    try {
+        $statement = $db->prepare($query);
+        $statement->bindValue(':userID', $userID);
+        $rowCount = $statement->execute();
+        return $rowCount;
+    } catch (PDOException $ex) {
+        $message = $ex->getMessage();
+        display_db_error($message);
+    }
+}
+
+    function check_user_login($userName, $passWord) {
     global $db;
     $query = 'SELECT * FROM users
             WHERE username = :username AND password = :password';
@@ -202,8 +273,9 @@ function check_user_login($userName, $passWord) {
 }
 
 
-function display_db_error($message) {
+    function display_db_error($message) {
 
-    echo $message;
-    exit();
-}
+        echo $message;
+        exit();
+    }
+    

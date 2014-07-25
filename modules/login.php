@@ -7,9 +7,11 @@
     <input type="text" name="username" placeholder="Enter Your UserName">
 
     <label>Password:</label>
-    <input type="password" name="password" placeholder="Enter Your Password">
+    <input type="password" name="password" placeholder="Enter Your Password"><br>
 
-    <button  type="submit">Login</button><br>
-    <button  onclick="/index.php?action=new_account">Create New Account</button>
+    <button  type="submit">Login</button><br>  
 </form>
- 
+ <form class="smart-form" action="/index.php" method="get">
+     <input type="hidden" name="action" value="new_account">
+     <button  type="submit">Create New Account</button>
+ </form>  

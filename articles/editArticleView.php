@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 
 <head>
-    <title>View of Selected Published Blog Post</title>
+    <title>Edit Your Blog Post</title>
     <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/head.php'); ?>
 
 </head>
@@ -23,28 +24,25 @@
                 <?php include (filter_input(INPUT_SERVER, 'DOCUMENT_ROOT') . '/modules/navigation.php'); ?>
             </nav>
 
-            <section id="mainContentSection">               
-             
-               
-                    <article>
-                         <h3><?php echo $article['title'];?></h3><br>
-                        <?php echo $article['content'];?>
-                    </article> 
-            
-                <?php if($_SESSION['username'] == $article['username']): ?>
-                <form class="smart-form" action="/articles/editArticle.php" method="post">
-                    <input type='hidden' name='articleID' value="<?php echo $article['articleID'];?>">
-                    <button type='submit'>Edit This Article</button>
+            <section id="mainContentSection">
+                <form class="smart-form" action="/articles/alterArticle.php" method="post" >
+                    <h1>Edit Your Blog Entry</h1>
+                    <label>Title:</label>
+                    <input type="hidden" name='articleID' value="<?php echo $article['articleID'];?>">
+                    <input type="hidden" name='username' value="<?php echo $article['username'];?>">
+                    <input type="text" name="title" value="<?php echo $article['title'];?>"><br>
+                    <textarea id="article_body" name="text" rows="40" cols="50" placeholder="Created Your Article Here" >
+                      <?php echo $article['content'];?>
+                    </textarea>
+                    <script type="text/javascript">
+                        CKEDITOR.replace('article_body');
+                    </script>
+                    <button type="submit">Save Changes</button>
                 </form>
-                <form class="smart-form" action="/articles/deleteArticle.php" method="post">
-                    <input type='hidden' name='articleID' value="<?php echo $article['articleID'];?>">
-                    <input type='hidden' name='username' value="<?php echo $article['username'];?>">
-                    <button type='submit'>Delete This Article</button>
-                </form>
-                <?php endif ?>
             </section>
+
             <aside id="pageAside">
-               <?php if (!isset($_SESSION['username'])) : ?>
+                <?php if (!isset($_SESSION['username'])) : ?>
                     <?php include ('../modules/login.php'); ?>
                 <?php endif; ?>
                 <h2>Whats New?</h2>

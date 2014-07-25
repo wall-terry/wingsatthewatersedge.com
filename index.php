@@ -14,19 +14,27 @@ if (filter_has_var(INPUT_GET, 'action')) {
 switch ($action) {
     case 'home':
         include ('homeview.php');
+        $action = '';
+        $error_message = '';
         break;
 
     case 'login':
         include ('loginView.php');
+        $action = '';
+        $error_message = '';
         break;
     
     case 'login_failed':
         $error_message = 'Unknown Username or Passsword';
         include ('loginView.php');
+        $action = '';
+        $error_message = '';
         break;
 
     case 'new_account':
         include 'users/createAccountView.php';
+        $action = '';
+        $error_message = '';
         break;
 
     default:

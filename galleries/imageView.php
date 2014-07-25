@@ -25,7 +25,7 @@
             </nav>
 
             <section id="mainContentSection">
-                <h3>Image <?php echo $imageID;?></h3>
+                <h3><?php echo $imageData['title'];?></h3>
                 <image class="gallery_image" src= "/uploaded_images/<?php echo $imagefile;?>" alt="<?php echo $title;?>" >
                 <h3>Photo posted by <?php echo $user_name; ?></h3>
                 <p class="image_description"><?php echo $description; ?></p>
